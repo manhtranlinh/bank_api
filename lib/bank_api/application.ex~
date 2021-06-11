@@ -17,9 +17,8 @@ defmodule BankAPI.Application do
       BankAPIWeb.Endpoint,
       # Start a worker by calling: BankAPI.Worker.start_link(arg)
       # {BankAPI.Worker, arg}
-      # Start Event Store
-      #BankAPI.EventStore
-      {BankAPI.Accounts.Supervisor, []}
+      BankAPI.Commanded,
+      BankAPI.Accounts.Supervisor
       ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

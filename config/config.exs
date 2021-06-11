@@ -31,7 +31,7 @@ config :bank_api, event_stores: [BankAPI.EventStore]
 #config :eventstore, EventStore.Storage, serializer: Commanded.Serialization.JsonSerializer
 
 # Configuration for Commanded
-config :bank_api, BankAPI.Commanded,
+config :bank_api, BankAPI.CommandedApplication,
   event_store: [
     adapter: Commanded.EventStore.Adapters.EventStore,
     event_store: BankAPI.EventStore

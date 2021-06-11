@@ -17,7 +17,7 @@ defmodule BankAPI.Application do
       BankAPIWeb.Endpoint,
       # Start a worker by calling: BankAPI.Worker.start_link(arg)
       # {BankAPI.Worker, arg}
-      BankAPI.Commanded,
+      BankAPI.CommandedApplication,
       BankAPI.Accounts.Supervisor
       ]
 

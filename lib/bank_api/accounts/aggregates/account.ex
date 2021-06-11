@@ -14,7 +14,7 @@ defmodule BankAPI.Accounts.Aggregates.Account do
   end
 
   def execute(%Account{uuid: nil}, %OpenAccount{initial_balance: initial_balance})
-      when initial_balance <= 0 do
+      when initial_balance <= 0 do 
     {:error, :initial_balance_must_be_above_zero}
   end
 

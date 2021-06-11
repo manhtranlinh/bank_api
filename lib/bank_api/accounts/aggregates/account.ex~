@@ -1,5 +1,5 @@
 defmodule BankAPI.Accounts.Aggregates.Account do
-  defstruct uuid: nil, current_balance: nil
+  defstruct [uuid: nil, current_balance: nil]
 
   alias __MODULE__
   alias BankAPI.Accounts.Commands.OpenAccount

@@ -7,3 +7,5 @@ defmodule BankAPI.Accounts.Projections.Account do
     timestamps([type: :utc_datetime])
   end
 end
+
+# Read model 
