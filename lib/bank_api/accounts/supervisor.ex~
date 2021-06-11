@@ -1,0 +1,18 @@
+defmodule BankAPI.Accounts.Supervisor do
+  use Supervisor
+
+  alias BankAPI.Accounts
+
+  def start_link(init_arg) do
+    Supervisor.start_link(__MODULE__, init_arg) 
+  end
+
+  def init(_arg) do
+    children = [
+      %{id: :account_opened,
+	start: {Accounts.Projectors.AccountOpened, :start_link, []}
+       }
+    ]
+    Supervisor.init(children, strategy: :one_for_one)
+  end
+end
