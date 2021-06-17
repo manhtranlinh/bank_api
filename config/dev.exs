@@ -69,4 +69,4 @@ config :bank_api, BankAPI.EventStore,
   pool_size: 10,
   pool_overflow: 5
 
-#config :bank_api, BankAPI.EventStore, serializer: Commanded.Serialization.JsonSerializer
+
