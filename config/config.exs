@@ -42,7 +42,7 @@ config :bank_api, BankAPI.CommandedApplication,
 
 config :commanded_ecto_projections, repo: BankAPI.Repo
 
-config :commanded, Commanded.EventStore.Adapters.InMemory, serializer: Commanded.Serialization.JsonSerializer
+#config :commanded, Commanded.EventStore.Adapters.InMemory, serializer: Commanded.Serialization.JsonSerializer
 
 
 # Import environment specific config. This must remain at the bottom

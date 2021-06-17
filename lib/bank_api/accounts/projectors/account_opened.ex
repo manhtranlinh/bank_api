@@ -2,8 +2,9 @@ defmodule BankAPI.Accounts.Projectors.AccountOpened do
   use Commanded.Projections.Ecto,
     application: BankAPI.CommandedApplication,
     repo: BankAPI.Repo,
+    #name: "Accounts.Projectors.AccountOpened"
     name: to_string(__MODULE__)
-      #    name: "Accounts.Projectors.AccountOpened"
+
 
   alias BankAPI.Accounts.Events.AccountOpened
   alias BankAPI.Accounts.Projections.Account

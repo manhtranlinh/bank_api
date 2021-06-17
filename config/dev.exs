@@ -57,9 +57,11 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 # Configuration for EventStore Postgres
-config :eventstore, column_data_type: "jsonb"
+#config :eventstore, column_data_type: "jsonb"
 
 config :bank_api, BankAPI.EventStore,
+  column_data_type: "jsonb",
+  serializer: Commanded.Serialization.JsonSerializer,
   username: "postgres",
   password: "postgres",
   database: "bank_api_eventstore_dev",
@@ -67,5 +69,4 @@ config :bank_api, BankAPI.EventStore,
   pool_size: 10,
   pool_overflow: 5
 
-config :bank_api, BankAPI.EventStore, serializer: Commanded.Serialization.JsonSerializer
-
+#config :bank_api, BankAPI.EventStore, serializer: Commanded.Serialization.JsonSerializer
