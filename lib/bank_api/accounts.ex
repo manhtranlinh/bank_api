@@ -25,7 +25,8 @@ defmodule BankAPI.Accounts do
           initial_balance: changeset.changes.initial_balance,
           account_uuid: account_uuid
         }
-        |> Router.dispatch()
+        |> Router.dispatch(application: CommandedApplication)
+      
 
       case dispatch_result do
         :ok ->
@@ -40,7 +41,7 @@ defmodule BankAPI.Accounts do
   end
 
   defp account_opening_changeset(params) do
-    %Account{}
+    {params, %{initial_balance: :integer}}
     |> Changeset.cast(params, [:initial_balance])
     |> Changeset.validate_required([:initial_balance])
     |> Changeset.validate_number(:initial_balance, greater_than: 0)

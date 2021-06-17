@@ -26,3 +26,10 @@ bank_api-*.tar
 # we ignore priv/static. You may want to comment
 # this depending on your deployment strategy.
 /priv/static/
+
+
+# Not upload emacs temp files
+*.ex~
+*.exs~
+*.ex#
+.#*
