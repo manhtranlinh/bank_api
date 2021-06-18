@@ -7,10 +7,9 @@ defmodule BankAPI.Accounts.Supervisor do
 
   def init(_arg) do
     children = [
-      # %{id: :account_opened,
-      # 	start: {BankAPI.Accounts.Projectors.AccountOpened, :start_link, []}
-      #  }
-      Supervisor.child_spec(BankAPI.Accounts.Projectors.AccountOpened, id: :account_opened)
+      Supervisor.child_spec(BankAPI.Accounts.Projectors.AccountOpened, id: :account_opened),
+      Supervisor.child_spec(BankAPI.Accounts.Projectors.AccountClosed, id: :account_closed)
+      
     ]
     Supervisor.init(children, strategy: :one_for_one)
   end

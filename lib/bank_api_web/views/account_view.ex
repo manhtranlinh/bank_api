@@ -7,6 +7,6 @@ defmodule BankAPIWeb.AccountView do
   end
 
   def render("account.json", %{account: account}) do
-    %{uuid: account.uuid, current_balance: account.current_balance}
+    %{uuid: account.uuid, status: account.status, current_balance: account.current_balance}
   end
 end
