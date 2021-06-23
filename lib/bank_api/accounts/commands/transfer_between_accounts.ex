@@ -11,7 +11,7 @@ defmodule BankAPI.Accounts.Commands.TransferBetweenAccounts do
   def valid?(command) do
     cmd = Map.from_struct(command)
 
-    with %Account{} <- account_exists?(cmd.destination_acocunt_uuid),
+    with %Account{} <- account_exists?(cmd.destination_account_uuid),
       true <- account_open?(cmd.destination_account_uuid) do
       Skooma.valid?(cmd, schema())
     else

@@ -84,12 +84,12 @@ defmodule BankAPI.Accounts do
     end
   end
 
-  def transfer(source_id, amount, destination_id) do
+  def transfer(source_id, amount, destination_account_id) do
     %TransferBetweenAccounts{
       account_uuid: source_id,
       transfer_uuid: UUID.uuid4(),
       transfer_amount: amount,
-      destination_account_uuid: destination_id
+      destination_account_uuid: destination_account_id
     }
     |> Router.dispatch(application: CommandedApplication)
   end

@@ -54,11 +54,12 @@ defmodule BankAPI.Accounts.Aggregates.Account do
 
   def execute(
         %Account{uuid: account_uuid, closed?: false, current_balance: current_balance},
-        %DepositIntoAccount{account_uuid: account_uuid, deposit_amount: amount}
+        %DepositIntoAccount{account_uuid: account_uuid, deposit_amount: amount,  transfer_uuid: transfer_uuid}
       ) do
     %DepositedIntoAccount{
       account_uuid: account_uuid,
-      new_current_balance: current_balance + amount
+      new_current_balance: current_balance + amount,
+      transfer_uuid: transfer_uuid
     }
   end
 
@@ -74,12 +75,13 @@ defmodule BankAPI.Accounts.Aggregates.Account do
 
   def execute(
         %Account{uuid: account_uuid, closed?: false, current_balance: current_balance},
-        %WithdrawFromAccount{account_uuid: account_uuid, withdraw_amount: amount}
+        %WithdrawFromAccount{account_uuid: account_uuid, withdraw_amount: amount, transfer_uuid: transfer_uuid}
       ) do
     if current_balance - amount > 0 do
       %WithdrawnFromAccount{
         account_uuid: account_uuid,
-        new_current_balance: current_balance - amount
+        new_current_balance: current_balance - amount,
+	transfer_uuid: transfer_uuid
       }
     else
       {:error, :insufficient_funds}
