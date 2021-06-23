@@ -3,9 +3,9 @@ defmodule BankAPI.CommandRouter do
   
 
   alias BankAPI.Accounts.Aggregates.Account
-  alias BankAPI.Accounts.Commands.{OpenAccount, CloseAccount}
+  alias BankAPI.Accounts.Commands.{OpenAccount, CloseAccount, DepositIntoAccount, WithdrawFromAccount, TransferBetweenAccounts}
 
   middleware BankAPI.Middleware.ValidateCommand
   
-  dispatch([OpenAccount, CloseAccount], to: Account, identity: :account_uuid)
+  dispatch([OpenAccount, CloseAccount, DepositIntoAccount, WithdrawFromAccount, TransferBetweenAccounts], to: Account, identity: :account_uuid)
 end

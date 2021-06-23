@@ -6,7 +6,15 @@ defmodule BankAPI.Accounts do
   import Ecto.Query, warn: false
   alias BankAPI.Repo
   alias BankAPI.CommandedApplication
-  alias BankAPI.Accounts.Commands.{OpenAccount, CloseAccount}
+
+  alias BankAPI.Accounts.Commands.{
+    OpenAccount,
+    CloseAccount,
+    DepositIntoAccount,
+    WithdrawFromAccount,
+    TransferBetweenAccounts
+  }
+
   alias BankAPI.Accounts.Projections.Account
   alias BankAPI.CommandRouter, as: Router
 
@@ -53,4 +61,36 @@ defmodule BankAPI.Accounts do
   end
 
   def open_account(_params), do: {:error, :bad_command}
+
+  def deposit(id, amount) do
+    dispatch_result =
+      %DepositIntoAccount{account_uuid: id, deposit_amount: amount}
+      |> Router.dispatch(application: CommandedApplication, consistency: :strong)
+
+    case dispatch_result do
+      :ok -> {:ok, Repo.get!(Account, id)}
+      reply -> reply
+    end
+  end
+
+  def withdraw(id, amount) do
+    dispatch_result =
+      %WithdrawFromAccount{account_uuid: id, withdraw_amount: amount}
+      |> Router.dispatch(application: CommandedApplication, consistency: :strong)
+
+    case dispatch_result do
+      :ok -> {:ok, Repo.get!(Account, id)}
+      reply -> reply
+    end
+  end
+
+  def transfer(source_id, amount, destination_id) do
+    %TransferBetweenAccounts{
+      account_uuid: source_id,
+      transfer_uuid: UUID.uuid4(),
+      transfer_amount: amount,
+      destination_account_uuid: destination_id
+    }
+    |> Router.dispatch(application: CommandedApplication)
+  end
 end
