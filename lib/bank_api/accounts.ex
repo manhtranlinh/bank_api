@@ -36,9 +36,17 @@ defmodule BankAPI.Accounts do
     |> Router.dispatch(application: CommandedApplication)
   end
 
-  def open_account(%{"initial_balance" => initial_balance}) do
+  def open_account(%{"initial_balance" => initial_balance} = attrs) do
     account_uuid = UUID.uuid4()
+    attrs = Map.put(attrs, "account_uuid", account_uuid)
 
+    open_account_changeset = OpenAccount.changeset(%OpenAccount{account_uuid: account_uuid}, attrs)
+
+    case open_account_changeset.valid? do
+      true -> open_account_command = open_account_changeset |> Ecto.Changeset.apply_changes()
+      false -> {:error, open_account_changeset.errors} 
+    end
+    
     dispatch_result =
       %OpenAccount{
         initial_balance: initial_balance,

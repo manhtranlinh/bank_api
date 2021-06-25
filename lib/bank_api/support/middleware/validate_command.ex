@@ -4,6 +4,7 @@ defmodule BankAPI.Middleware.ValidateCommand do
   alias Commanded.Middleware.Pipeline
 
   def before_dispatch(%Pipeline{command: command} = pipeline) do
+    IO.inspect(pipeline)
     case command.__struct__.valid?(command) do
       :ok ->
         pipeline
