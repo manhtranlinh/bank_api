@@ -15,8 +15,18 @@ defmodule BankAPIWeb.ErrorView do
   end
 
   def render("422.json", assigns) do
-    %{errors: %{
-	 message: assigns[:message] || "Unprocessable entity"
-      }}
+    %{
+      errors: %{
+        message: assigns[:message] || "Unprocessable entity"
+      }
+    }
+  end
+
+  def translate_errors(changeset) do
+    Ecto.Changeset.traverse_errors(changeset, &translate_error/1)
+  end
+
+  def render("error.json", %{changeset: changeset}) do
+    %{errors: translate_errors(changeset)}
   end
 end

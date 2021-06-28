@@ -6,6 +6,7 @@ defmodule BankAPI.Accounts do
   import Ecto.Query, warn: false
   alias BankAPI.Repo
   alias BankAPI.CommandedApplication
+  alias Ecto.Changeset
 
   alias BankAPI.Accounts.Commands.{
     OpenAccount,
@@ -40,19 +41,17 @@ defmodule BankAPI.Accounts do
     account_uuid = UUID.uuid4()
     attrs = Map.put(attrs, "account_uuid", account_uuid)
 
-    open_account_changeset = OpenAccount.changeset(%OpenAccount{account_uuid: account_uuid}, attrs)
-
-    case open_account_changeset.valid? do
-      true -> open_account_command = open_account_changeset |> Ecto.Changeset.apply_changes()
-      false -> {:error, open_account_changeset.errors} 
-    end
-    
     dispatch_result =
-      %OpenAccount{
-        initial_balance: initial_balance,
-        account_uuid: account_uuid
-      }
-      |> Router.dispatch(application: CommandedApplication)
+      %OpenAccount{account_uuid: account_uuid}
+      |> OpenAccount.changeset(attrs)
+      |> case do
+        %Changeset{valid?: true} = changeset ->
+          changeset
+          |> Ecto.Changeset.apply_changes()
+          |> Router.dispatch(application: CommandedApplication)
+
+        %Changeset{valid?: false, errors: errors} = changeset -> changeset
+      end
 
     case dispatch_result do
       :ok ->
